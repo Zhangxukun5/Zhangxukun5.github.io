@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          李南江网易云课堂从零玩转HTML5前端+跨平台开发第二天学习 - Zhangxukun Blog | 张绪坤
+          云知梦腾讯课堂WEB前端开发第二天学习笔记 - Zhangxukun Blog | 张绪坤
         
     </title>
 
-    <link rel="canonical" href="http://zhangxukun5.com/2018/06/14/six-fourteen/">
+    <link rel="canonical" href="http://zhangxukun5.com/2018/06/17/six-seventeen/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,14 +90,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#WEB前端" title="WEB前端">WEB前端</a>
+                              <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
                             
                         </div>
-                        <h1>李南江网易云课堂从零玩转HTML5前端+跨平台开发第二天学习</h1>
-                        <h2 class="subheading">CSS样式（59-66）</h2>
+                        <h1>云知梦腾讯课堂WEB前端开发第二天学习笔记</h1>
+                        <h2 class="subheading">Javascript前端开发</h2>
                         <span class="meta">
                             Posted by 张绪坤 on
-                            2018-06-14
+                            2018-06-17
                         </span>
                     </div>
                 
@@ -214,64 +214,69 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>今天事情很多做的很混乱，想要学习的课程只观看了一点点，代码：</p>
-<p>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>CSS体验</title>
-<pre><code>	&lt;!--所有css代码都写在一对style标签内，并在head内--&gt;
-	&lt;!--type=&quot;text/css&quot;表示当前表示的是文本的css样式--&gt;
-	&lt;!--下面h1位置就是格式中表示的标签(选择器)--&gt;
-	&lt;!--格式中大括号前面的叫做“选择器”，大括号里面的为属性--&gt;
-	&lt;style type=&quot;text/css&quot;&gt;
-
-		h1{
-			text-align:center;
-			color:green;
-			font-size:45px;
-		}
-		h6{
-			font-style:italic;
-			font-size:15px;
-			text-decoration:underline;
-			text-indent:2em;
-			color:#EFDDAA;
-		}
-		a{
-			text-decoration:none;
-			
-			color:rgb(155,155,155);
-		}
-
-	&lt;/style&gt;
-&lt;/head&gt;
-
-	
-&lt;body&gt;
-	&lt;h1&gt;css标准格式（59---66节）&lt;/h1&gt;
-	&lt;h6&gt;我是css体验里的h6&lt;/h6&gt;
-	&lt;a href=&quot;#&quot;&gt;假链接中的超链接&lt;/a&gt;
-&lt;/body&gt;
-</code></pre>
-</head></html>
-</p>
-<p><br><img src="/2018/06/14/six-fourteen/1.png" alt="“页面”"></p>
-
+                <p>今天内容<br>
+<img src="/2018/06/17/six-seventeen/01.png" alt="“picture one”"></p>
+<ul><h6><span id="面向对象">面向对象</span></h6>
+<li>如何获得该对象</li><li>如何调用该对象的属性</li>
+<li>如何调用该对象的方法</li>
+<p>标记：属性（特征）  方法（行为）</p>
+<ul><h6><span id="js对象">js对象</span></h6>
+<li>js对象:
+obj=new Object();
+可以赋属性obj.username=''
+可以赋方法obj.say=function(){alert(123);}</li>
+<li>dom对象:
+	eleobj=docunment;</li>
+<li>json对象:
+	jsobj={'username':'user1',<br>'age':'20','say':function(){alert(123456)}//方法是由其的值为一个函数才看的出来的，所以say为该对象的方法};
+</li>
+<h6><span id="函数定义方法">函数定义方法</span></h6>
+	1.function say(){alert();}传统定义<br>
+	2.say=function(){alert();}匿名定义<br>
+<hr>
+<p>NaN类型：#not a number</p>
+<p>NULL类型：什么都没有，但占个位置</p>
+<p>underfinded类型：未定义</p>
+<p>标记：在js中只有在函数里面带var的是局部变量，其余全都是全局变量。</p>
+<p>1.typeof();方法：</p>
+<p>作用为判断变量类型string number boolen object underfined#js中所有变量都是对象</p>
+<p>2.arr instanceof Array;方法：</p>
+<p>这个方法可以测试数组类型</p>
+<br>
+<h6><span id="顶级全局方法">顶级全局方法</span></h6>
+<p>typeof();</p>
+<p>parseInt();强制转整型</p>
+<p>parseFloat();强制转浮点型</p>
+<p>eval();执行字符串表达式</p>
+<p>String();整型转字符串型</p>
+<p>Boolean();</p>
+<p></p><h6><span id="dom对象浏览器提供的一些标签对象">dom对象（浏览器提供的一些标签对象）</span></h6><p></p>
+<p>alert();</p>
+<p>json字符串转json对象：</p>
+<p>v="{'un':'u1','age':'20'}" </p><p>obj=eval(‘（’+‘）’);//加圆括号变成表达式单元</p>
+<p>alert(obj.un);</p>
+<hr>
+<p>deleta v;删除变量v，注意delete不能删除局部变量</p>
+<p>in 判断一个属性是不是在一个对象里面，判断一个下标是不是在一个数组里面</p>
+<hr>
+<h6><span id="forin循环遍历">forIn循环遍历</span></h6>
+![“picture two”](/six-seventeen/02.png)
+<p></p><h6><span id="乘法表实现">乘法表实现</span></h6><br>
+<img src="/2018/06/17/six-seventeen/03.png" alt="“picture three”"><p></p>
+<p></p><h6><span id="confirm确认">confirm确认</span></h6><br>
+<img src="/2018/06/17/six-seventeen/04.png" alt="“picture four”"><p></p>
+<p></p><h6><span id="应用">应用</span></h6><br>
+<img src="/2018/06/17/six-seventeen/05.png" alt="“picture five”"><p></p>
+</ul></ul>
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/06/15/six-fifteen/" data-toggle="tooltip" data-placement="top" title="李南江网易云课堂从零玩转HTML5前端+跨平台开发第三天学习">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/06/12/six-twelve/" data-toggle="tooltip" data-placement="top" title="李南江网易云课堂从零玩转HTML5前端+跨平台开发第一天学习">Next Post &rarr;</a>
+                            <a href="/2018/06/15/six-fifteen/" data-toggle="tooltip" data-placement="top" title="李南江网易云课堂从零玩转HTML5前端+跨平台开发第三天学习">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -344,7 +349,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">面向对象</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">js对象</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">函数定义方法</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">顶级全局方法</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">dom对象（浏览器提供的一些标签对象）</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">forIn循环遍历</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">乘法表实现</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">confirm确认</span></a></li><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">应用</span></a></li></ol>
         
         </div>
       </aside>
@@ -364,7 +369,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#WEB前端" title="WEB前端">WEB前端</a>
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
                         
                     </div>
                 </section>
