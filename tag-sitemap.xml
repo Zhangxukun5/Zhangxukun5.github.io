@@ -9,13 +9,6 @@
     </url>
 
     <url>
-        <loc>http://zhangxukun5.com/tags/%E7%BC%96%E8%BE%91%E5%99%A8/</loc>
-        <lastmod>2018-06-10T17:15:24.986Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://zhangxukun5.com/tags/WEB%E5%89%8D%E7%AB%AF/</loc>
         <lastmod>2018-06-15T14:41:55.172Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -23,8 +16,15 @@
     </url>
 
     <url>
+        <loc>http://zhangxukun5.com/tags/%E7%BC%96%E8%BE%91%E5%99%A8/</loc>
+        <lastmod>2018-06-21T07:42:29.033Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://zhangxukun5.com/tags/Javascript/</loc>
-        <lastmod>2018-06-17T11:25:35.128Z</lastmod>
+        <lastmod>2018-06-21T08:26:42.508Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
