@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          《Python编程：从入门到实践》基础部分笔记 - Zhangxukun Blog | 张绪坤
+        
+    </title>
+
+    <link rel="canonical" href="http://zhangxukun5.com/2018/07/26/sevenTS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/BeanTechSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                        </div>
+                        <h1>《Python编程：从入门到实践》基础部分笔记</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 张绪坤 on
+                            2018-07-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Zhangxukun blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Python编程：从入门到实践：<a href="https://pan.baidu.com/s/125o4lYv_pczvdBxLMKBXxA" target="_blank" rel="noopener">https://pan.baidu.com/s/125o4lYv_pczvdBxLMKBXxA</a><br>
+第一章起步<br>
+1.1搭建编程环境<br>
+1.2在windows系统中搭建Python编程环境<br>
+在终端中输入python，得到python的版本信息，同时出现&gt;&gt;&gt;代表python安装成功；<br>
+接着终端中可以运行python程序，如print(“Hello Python World!”)<br>
+1.3解决安装问题<br>
+安装文本编辑器Geany后，Geany中运行python程序常常需要在Geany编辑器中添加在终端会话所使用的路径，来给Geany编辑器指明python存储在系统哪个地方。<br>
+1.4终端运行Python程序<br>
+第二章变量和简单数据类型<br>
+2.2变量<br>
+message=”Hello Python world!” print(message) 这即为变量，变量在python中表示“关联”；<br>
+变量以字母或者下划线开头，以字母、下划线、数字组成。<br>
+2.3字符串<br>
+单引号或者双引号包裹的字符为字符串：<br>
+‘zxk’<br>
+“zxk”<br>
+处理字符串的方法：<br>
+name.title() 对变量name使用title()方法，使之变量name关联的字符串首字母大写；<br>
+name.upper() …字母大写表示；<br>
+name.lower() …字符串字母小写表示。<br>
+Python中可以使用+来拼接字符串。<br>
+Python中\t可显示出制表符。<br>
+Python中\n可显示出换行。<br>
+name.rstrip()可以删除字符串末尾的空格符。<br>
+name.lstrip()可以删除字符串开头的空格符。<br>
+name.strip()可以同时删除两头的空格符。<br>
+2.4数字<br>
++、-、<em>、/代表加减乘除。<br>
+<strong>表示乘方，如3</strong>2等于9，3</em><em>3等于27。<br>
+str(name)可以将name关联的数字转换为字符串类型。<br>
+2.5注释<br>
+#注释。<br>
+#coding=gbk之后可以#中文注释。<br>
+第三章列表简介<br>
+3.1列表是什么<br>
+bicycles=[‘trek’,’cannondale’,’redline’,’specialized’]<br>
+3.2修改、添加、删除元素<br>
+修改：bicycles[0]=’heima’<br>
+末尾添加：bicycles.append(‘heima’)<br>
+插入元素：bicycles.insert(0,’heima’)<br>
+del删除元素：del bicycles[0]<br>
+删除列表末尾元素，并使用其值，即“弹出”：poped_bicycles=bicycles.pop()<br>
+弹出任意位置：poped_bicycles=bicycles.pop(0)<br>
+根据值删除元素：bicycles.remove(‘heima’)<br>
+3.3组织列表<br>
+假设列表元素为小写字母，则对列表永久字母顺序排序：cars.sort()<br>
+…字母反方向永久排序：cars.sort(reverse=True)<br>
+函数sorted()对列表进行临时排序：sorted(cars)<br>
+倒着打印列表：cars.reverse()	print(cars)<br>
+确定列表的长度：len(cars)<br>
+访问列表最后面的元素时，可以用索引-1<br>
+第四章操作列表<br>
+4.1遍历列表<br>
+遍历列表元素：for car in cars:		print(car)<br>
+4.2避免缩进错误<br>
+4.3创建数值列表<br>
+使用range(1,6)可以产生1-5数字：for value in range(1,6):	print(value)<br>
+将range(1,6)作为list()的参数，则可以直接创建数值列表：names=list(range(1,6))<br>
+range()指定步长，如：range(2,11,2)<br>
+对数字列表进行简单的统计计算函数：<br>
+digists=[1,2,3,4,5]<br>
+min(digists)最小<br>
+max(digists)最大<br>
+sum(digists)求和<br>
+列表解析：squares=[value</em>*2  for value in range(1,11,2)]	print(squares)<br>
+4.4使用列表的一部分<br>
+切片：print(cars[0:2])<br>
+4.5元组<br>
+numbers=(0,1,2,3,4,5)<br>
+第五章if语句<br>
+5.1一个简单的示例<br>
+for car in cars:<br>
+if car==bwm:<br>
+print car.upper()<br>
+else:<br>
+print car.lower()<br>
+5.2条件测试<br>
+相等 ==<br>
+小于 &lt;<br>
+小于等于 &lt;=<br>
+大于 &gt;<br>
+使用and检查多个条件a&gt;45 and a&lt;75<br>
+使用or 检查多个条件 a&gt;45 or a&lt;75<br>
+检查特定值是否包含在列表中 ‘car’ in “cars”	值为”True”或”False”<br>
+检查特定值是否不包含在列表中 ‘car’ not in ‘cars’<br>
+5.3if语句<br>
+if ‘car’ in cars:<br>
+print(‘car’)<br>
+else:<br>
+print(“0”)<br>
+结构if-else-else:<br>
+if a&lt;5:<br>
+print(a)<br>
+else a&lt;15<br>
+print(a)<br>
+else a&lt;25<br>
+print(a)<br>
+语句elif，实际表示else+if<br>
+5.4使用if语句处理列表<br>
+检查特殊元素 if car==”car”:<br>
+确定列表不是空列表：<br>
+cars=[]<br>
+if cars:<br>
+print(“不为空”)<br>
+else:<br>
+Print(“空”)<br>
+第六章字典<br>
+6.1一个简单的字典<br>
+Python中字典是放在花括号{}里面的一系列 键—值 对。<br>
+cars={‘color’:’white’,’point’:5}<br>
+print(cars[‘color’])<br>
+print(cars[‘point’])<br>
+6.2使用字典<br>
+字典中每个键与之关联一个值，值可以为Python中的任何对象，可以通过键来访问值。<br>
+添加键值对：<br>
+cars={‘color’:’white’,’point’=5}<br>
+cars[‘length’]=7<br>
+创建空字典：<br>
+cars={}<br>
+修改字典中键对应的值：<br>
+cars[‘color’]=’yellow’<br>
+删除字典中的键值对，del语句指定字典和对应的键：<br>
+del cars[‘color’]<br>
+字典中存储一个对象的多个信息时，需要缩进“四个空格”：<br>
+Cars={<br>
+‘a’=1,<br>
+‘b’=2,<br>
+}<br>
+6.3遍历字典<br>
+遍历字典中的所有信息，即键值对：<br>
+for key,value in cars.items():<br>
+for语句中包含字典名称cars，同时包含方法items()，它返回一个键值对列表，该	列表中的键存储在变量key中，值存储在定义变量value中。<br>
+遍历字典中的所有键，用到方法keys()：<br>
+for key in cars.keys():<br>
+按照顺序遍历字典中的所有键，用到方法sorted()：<br>
+for key in sorted(cars.keys())<br>
+遍历之前，先将字典中的键按照顺序排列好。<br>
+遍历字典中的所有值，用到方法values()：<br>
+for value in cars.values():<br>
+如果要遍历字典中所有不重复的元素，可以使用集合set():<br>
+for value in set(cars.values())<br>
+集合类似于列表，但是集合中的元素都不重复。</p>
+<p>6.4嵌套<br>
+列表中嵌套字典：<br>
+list=[zidian1,zidian2,zidian3]<br>
+字典中存储列表：<br>
+cars={<br>
+‘color’:’white’,<br>
+‘length’:[5,15,25],<br>
+}<br>
+字典中存储字典：<br>
+cars={<br>
+‘color’:{‘color1’:’white’,’color2’:’black’,}<br>
+‘point’:{<br>
+‘point1’:5,<br>
+’point2’:15,’<br>
+point3’:25,<br>
+}<br>
+}<br>
+第七章用户输入和while循环<br>
+7.1函数input()的工作原理<br>
+函数input()让程序停止运行，等待用户输入，并将输入关联变量。<br>
+函数input()接受参数即向用户显示提示和说明：<br>
+a=input(“shuruwei: ”)<br>
+print(a)<br>
+用户输入的为字符类型，可以使用int()函数如：number=int(bianliang)来转换为数值类型。<br>
+求模运算符%将两个数相除，返回余数，如：a=5%4<br>
+7.2while()循环简介<br>
+while后接条件，然后加冒号，下面缩进之后是循环执行的部分。<br>
+while message!=’quit’:<br>
+在实际的程序中，常常添加标志，如：<br>
+active=True<br>
+while active:<br>
+break语句可以推出循环。<br>
+continue语句可以返回到循环开头。<br>
+7.3使用while()循环来处理列表和字典<br>
+删除包含特定值的所有列表中的元素，如cars为一个列表，其中元素car多次出现：<br>
+while ‘car’ in cars:<br>
+cars.remove(‘car’)<br>
+使用用户输入可以while循环填充字典。<br>
+第八章函数<br>
+8.1定义函数<br>
+关键字def加函数名字，加圆括号和括号内函数需要的参数信息，加冒号结尾，之后缩进行构成了函数体，如：<br>
+def hanshu():<br>
+print(“我是函数”)<br>
+像函数传递信息，则需要在定义的圆括号中加入参数信息，如：<br>
+def hanshu(canshu):<br>
+print(“函数”)<br>
+8.2传递实参<br>
+位置实参：关联方式是基于形参的位置和顺序，如：<br>
+def number(n1,n2):<br>
+print(n1+n2)<br>
+number(‘a’,’b’)<br>
+关键字实参：其中每个实参都是由变量名和值组成，如：<br>
+def number(n1,n2):<br>
+print(n1+n2)<br>
+number(n1=’a’,n2=’b’)<br>
+函数定义中的形参可以加入默认值，但要把有默认值的形参放在无默认值的形参之后。<br>
+8.3返回值<br>
+函数可以永return语句返回，将值返回到调用函数的代码行。<br>
+函数可以让实参变为可选的，可以给实参指定一个默认值—空字符串，并将其移到形参列表的末尾：<br>
+def hanshu(a,b,c=’’):<br>
+函数也可以返回任意类型的值，包括列表与字典。<br>
+8.4传递列表<br>
+将列表作为实参传递给函数时，函数便可以直接访问列表中的内容，在很多程序应用中都可以提高效率，如：<br>
+def hanshu(names):<br>
+for name in names:<br>
+函数传递列表作为实参时可以在函数体中对列表进行修改，但是也可以使列表在函数使用中不会被修改，即可以向函数中传递列表的副本，如：<br>
+function(list[:],bianliang)<br>
+8.5传递任意数量的实参<br>
+函数可以使用一个形参<em>toppings，则无论调用语句传了多少个实参，函数都可以接纳进来，其实形参</em>toppings中的星号*是让Python创建一个名为toppings的空元组，将所有收到的实参都收纳到元组之中，即：<br>
+def hanshu(<em>toppings):<br>
+Print(toppings)<br>
+Hanshu(‘one’,’two’,’three’)<br>
+函数使用可以结合位置实参和任意数量实参，如：<br>
+def hanshu(weizhi,<em>toppings):<br>
+函数中使用任意数量的关键字实参，其中双星号</em></em>是让Python创建一个指定名字的空字典，并将函数调用所有传进来的键值对实参都封装到创建的这个空字典中，在这个字典中可以像访问其他字典一样访问定义的字典实参，如：<br>
+def hanshu(weizhi,**jianzhidui):<br>
+8.6将函数存储在模块中<br>
+Python中的导入必须首先创建.py类型的模块文件，然后可以：<br>
+导入整个模块： import mokuaiming<br>
+导入模块中的函数： from mokuaiming import hanshu1,hanshu2,hanshu3<br>
+使用as给函数指定一个别名： from mokuaiming import hanshu as hanshubieming<br>
+使用as给模块指定一个别名： import mokuaiming as mokuaibieming<br>
+导入一个模块中所有函数（不建议使用）： from mokuaiming import *<br>
+第九章类<br>
+9.1创建和使用类<br>
+class Dog():<br>
+“””一个小狗的类”””<br>
+def <em>init</em>(self,name,age):<br>
+“””初始化属性name和age”””<br>
+self.name=name<br>
+self.age=age<br>
+def sit(self):<br>
+print(“dog sit”)<br>
+def roll_over(self):<br>
+print(“dog roll over”)<br>
+其中self.name=name，以self为前缀的变量都可以供类中所有的方法使用，也可以通过类的任何实例来访问这些变量，该语句将获取存储在形参name中的值，并将值关联到变量name中，该变量name也通过self关联到了当前创建的实例，像这样可以通过类的实例访问的变量叫做属性。<br>
+Python中根据类来创建实例：<br>
+class Dog():<br>
+def <em>init</em>(self,name,age):<br>
+…<br>
+my_dog=Dog(‘pipi’,2)<br>
+该行代码中，Python使用实参’pipi’和2来调用类的_init_方法，该方法创建一个Dog类的实例，并且通过使用我们提供的值来设置属性name和age。<br>
+访问类实例的属性，用句点.访问，如：my_dog.name<br>
+类实例化后也可以通过实例用句点.调用类中的方法，如：my_dog.sit()<br>
+9.2使用类和实例<br>
+9.3继承<br>
+子类的_init_方法：<br>
+Class zilei(fulei):<br>
+Def <em>init</em>(self,a,b):<br>
+Super().<em>init</em>(a,b)<br>
+…<br>
+Super()是个特殊的方法，将超类与子类关联起来。<br>
+在Python中，让子类继承父类之后，可添加区分子类和父类的新属性和方法，子类也可以重写父类的方法。<br>
+在实际应用中，有时发现给一个类添加的细节越来越多，其中的属性和方法清单以及文件都会越来越长，故我们可以将这个类的某一个部分单独拿出来作为一个类，并可以将这个新组成的类的实例作为其他类的一个属性。<br>
+9.4导入类<br>
+Python中导入类和导入函数的语法基本一致。<br>
+9.5Python标准库<br>
+Python标准库即表示一堆Python中已存在的模块，我们可以导入这些模块并调用其中的类或函数，如模块collections中的OrderedDict类：<br>
+From collections import OrderedDict<br>
+shili=OrderedDict()<br>
+…<br>
+上述代码，一个是导入OrderedDict类，该类即表示一个记录了键值对添加顺序的字典，第二行表示的该类的实例化。<br>
+第十章文件和异常<br>
+10.1从文件中读取数据<br>
+读取整个文件：<br>
+with open(‘xxx.txt’) as filename:<br>
+contents=filename.read()<br>
+print(contents)<br>
+函数open(‘xxx.txt’)打开一个文件名为xxx.txt的文件，并返回一个表示文件的对象，再由as将该文件对象存储到后面变量filename中，接着下一行代码表示对该存储文件的变量执行方法read()读取文件的全部内容，并将读取到的全部内容作为一个长字符串存储到变量contents中，接着打印该变量的值。（注意read()方法到达文件末尾时返回一个空字符串。）<br>
+文件路径由绝对路径也有相对路径。<br>
+Python中创建一个包含文件各行内容的列表：<br>
+with open(filename) as file_object:<br>
+lines=file_object.readlines()<br>
+for line in lines:<br>
+print(line)<br>
+Readlines()方法从文件中读取每一行，并将其存储在一个列表中，即该方法是返回一个列表的，故我们上述代码，lines=file_object.readlines()可以将文件中的每一行都读取，作为一个列表，存储在变量lines中，该变量就表示了一个存储文件每一行内容的列表。<br>
+10.2写入文件<br>
+Python中写入空文件：<br>
+with open(filename,’w’) as file_object:<br>
+file_object.write(“把这些写入该空文件”)<br>
+若给文件中添加内容，则使用附加模式打开文件，这样写入文件的每一行都自动添加到文件的末尾，如：<br>
+with open(filename,’a’) as file_object:<br>
+file_object.write(“把这些添加到文件末尾”)<br>
+10.3异常<br>
+处理异常问题使用try-except代码块，try-except-else代码块。<br>
+Python中方法split()，是根据一个字符串创建一个单词列表，该方法以空格为分隔符将字符串分为单词组成，创建并返回一个单词列表，如：title.split() 其中title为一个字符串。<br>
+Python中使程序处理异常一声不吭继续运行的为pass语句，需要单独放在except代码块中。<br>
+10.4存储数据<br>
+模块json可以将简单的Python数据结构转存到文件中，并在程序再次运行时加载文件中的数据，还可以使用json在Python程序之间分享数据。<br>
+json.dump()的使用：<br>
+json.dump()需要两个实参，一个要存储的数据，一个为用于存储数据的文件对象。<br>
+import json<br>
+Numbers=[5,15,25]<br>
+Filename=”numbers.json”<br>
+With open(filename,’w’) as file_object:<br>
+Json.dump(numbers,file_object)<br>
+json.load()的使用：<br>
+Json.load()将文件对象存储的内容读取到内存中。<br>
+import json<br>
+Filename=”numbers.json”<br>
+With open(filename) as file_object:<br>
+Numbers=Json.load(file_object)<br>
+Print(numbers)<br>
+第十一章测试代码<br>
+11.1测试函数<br>
+11.2测试类</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/07/07/sevenseven/" data-toggle="tooltip" data-placement="top" title="Python编程环境搭建和Geany编辑器的安装">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+				
+				
+				
+				
+				
+				
+				
+				
+<section class="comments" id="comments"  style="margin-top:30px;padding:1px 30px 1px 30px;background-color:rgba(255,255,255,1);box-shadow: 0px 0px 20px #bbbbbb;border-radius: 5px;border-left-width: 10px;">
+ 
+ 
+ 
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="https://www.whereareyou.site/js/av-min.js" charset="utf-8" type="text/javascript"></script>
+    <script src="https://www.whereareyou.site/js/valine-min.js" charset="utf-8" type="text/javascript"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "x3YrzfkpQYYOlCPYmpQ3ol3Y-gzGzoHsz",
+            appKey: "N5usUX53QlEJ4vuT0AKDzB2T",
+            avatar: "retro",
+            placeholder: "欢迎各路人马评论，请在此处写下你想说的话,也记得填入一个昵称和邮箱哦~",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+		console.log("Valine done!")
+		 
+    </script>
+    <!-- Valine Comments end -->
+</section>
+
+
+
+				
+				
+				
+				
+				
+				
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://godweiyang.com" target="_blank">WeiYang blog</a></li>
+                    
+                        <li><a href="" target="_blank"></a></li>
+                    
+                        <li><a href="" target="_blank"></a></li>
+                    
+                        <li><a href="" target="_blank"></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+	
+	
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+
+	
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Zhangxukun5">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/张绪坤">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 张绪坤 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://zhangxukun5.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://zhangxukun5.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
