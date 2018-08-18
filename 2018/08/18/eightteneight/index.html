@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          About - Zhangxukun Blog | 张绪坤
+          《机器学习实战》k近邻算法_简单实现 - Zhangxukun Blog | 张绪坤
         
     </title>
 
-    <link rel="canonical" href="http://zhangxukun5.com/about/">
+    <link rel="canonical" href="http://zhangxukun5.com/2018/08/18/eightteneight/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/Iron-Man-3.jpg')
-            /*page*/
+            background-image: url('')
+            /*post*/
         
     }
     
@@ -87,10 +87,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>About</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Wish for the Best, Prepare for the Worst</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ML" title="ML">ML</a>
+                            
+                        </div>
+                        <h1>《机器学习实战》k近邻算法_简单实现</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 张绪坤 on
+                            2018-08-18
+                        </span>
                     </div>
                 
 
@@ -193,203 +201,261 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <blockquote>
-<p>我是海南大学物联网工程专业2014级本科生。<br>目前已经录取华东师范大学计算机技术专业攻读硕士学位。</p>
-</blockquote>
-<h1><span id="教育经历">教育经历</span></h1><hr>
-<ul>
-<li><b>硕士 计算机技术专业</b><br>华东师范大学<br>等待入学，预计2021年6月份毕业</li>
-<li><b>本科 物联网工程专业</b><br>海南大学<br>2018年6月毕业</li>
-</ul>
-<h1><span id="获得荣誉">获得荣誉</span></h1><hr>
-<h1><span id="联系方式">联系方式</span></h1><hr>
-<ul>
-<li><b>电子邮箱</b><br>zhangxukun5@qq.com<br>13016241226@163.com<br>631343038@qq.com</li>
-<li><b>地址</b><br>海南省儋州市海南大学热带农林学院儋州校区，邮编571737</li>
-<li><b>微信</b><br>ZXC631343038asd</li>
-<li><b>QQ</b><br>631343038</li>
-</ul>
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-                <!-- 如果开启评论功能 -->
+                <p>k-近邻算法采用测量不同特征值之间的距离方法进行分类，分类和回归都属于监督学习。<br>
+	优点：精度高、对异常值不敏感，无数据输入假定；<br>
+	缺点：时间和空间复杂度都高。<br>
+	Python简单实现算法代码：<br>
+<code></code></p>
+<p>#coding=gbk</p>
+<p>#下面这一行是导入科学计算包Numpy<br>
+from numpy import *<br>
+#下面这一行是导入运算符模块<br>
+import operator</p>
+<p>#该函数创建数据集和标签<br>
+def createDataSet():<br>
+	#四组数据，每组数据中有两个已知的属性或者说是特征值<br>
+group=array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])<br>
+#向量labels包含了每个数据点的标签信息，其包含的元素个数等于group矩阵行数。<br>
+labels=[‘A’,‘A’,‘B’,‘B’]</p>
+<pre><code>return group,labels 
+</code></pre>
+<p>#k近邻算法<br>
+#inX分类的输入向量<br>
+#输入的训练样本集为dataSet<br>
+#标签向量labels<br>
+#用于选择最近邻居的数目k<br>
+def classify0(inX, dataSet, labels, k):</p>
+<pre><code>#shape[0]计算矩阵的行数，shape[1]计算矩阵的列数
+dataSetSize = dataSet.shape[0]
+#tile数组inX以dataSetSize行1列重复，得到每个元素的差值
+diffMat = tile(inX, (dataSetSize,1)) - dataSet
+#每个元素的差值的平方
+sqDiffMat = diffMat**2
+#计算array中每行元素的和，这些和再组成一个array
+sqDistances = sqDiffMat.sum(axis=1)
+
+distances = sqDistances**0.5
+
+#将distances中的元素按照从小到大的顺序，将其每个元素对应的数组下标创建一个新的数组并返回。
+sortedDistIndicies = distances.argsort()     
+#新建一个dict，dict提供的get方法，如果key不存在，可以返回None，
+#或者自己指定的value
+classCount={}          
+
+#创建一个整数列表，用于for循环
+for i in range(k):
+	#提取前k个近邻的数据对应的标签
+    voteIlabel = labels[sortedDistIndicies[i]]
+	
+	
+	#classCount.get(voteIlabel,0)是指不存在相应key值的value则返回0
+	#前k个近邻的数据对应的标签，每重复一次，给对应标签计数加1
+	#dict.get(key, default=None)函数，key就是dict中的键voteIlabel，如果不存在则返回一个0并存入dict，如果存在则读取当前值并+1；
+    classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
+
+#该排序函数，将字典classCount中对应的（1）即计数大小作为排序参考，降序排序。
+#其中itemgetter(1)对应字典的“计数大小”，如果itemgetter(0)则对应字典中的“标签名称”
+sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
+
+return sortedClassCount[0][0]
+</code></pre>
+
+<p><img src="/2018/08/18/eightteneight/eighttengight/01.png" alt="“picture one”"></p>
+<p><img src="/2018/08/18/eightteneight/eighttengight/02.png" alt="“picture two”"></p>
+<p><img src="/2018/08/18/eightteneight/eighttengight/03.png" alt="“picture three”"></p>
+
                 
-                    <hr>
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/06/eightsix/" data-toggle="tooltip" data-placement="top" title="《机器学习导论》-附录概率论">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+				
+				
+				
+				
+				
+				
+				
+				
+<section class="comments" id="comments"  style="margin-top:30px;padding:1px 30px 1px 30px;background-color:rgba(255,255,255,1);box-shadow: 0px 0px 20px #bbbbbb;border-radius: 5px;border-left-width: 10px;">
+ 
+ 
+ 
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="https://www.whereareyou.site/js/av-min.js" charset="utf-8" type="text/javascript"></script>
+    <script src="https://www.whereareyou.site/js/valine-min.js" charset="utf-8" type="text/javascript"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "x3YrzfkpQYYOlCPYmpQ3ol3Y-gzGzoHsz",
+            appKey: "N5usUX53QlEJ4vuT0AKDzB2T",
+            avatar: "retro",
+            placeholder: "欢迎各路人马评论，请在此处写下你想说的话,也记得填入一个昵称和邮箱哦~",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+		console.log("Valine done!")
+		 
+    </script>
+    <!-- Valine Comments end -->
+</section>
+
+
+
+				
+				
+				
+				
+				
+				
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ML" title="ML">ML</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
 
                     
-
+                        <li><a href="http://godweiyang.com" target="_blank">WeiYang blog</a></li>
                     
-
-
+                        <li><a href="" target="_blank"></a></li>
                     
-
+                        <li><a href="" target="_blank"></a></li>
                     
+                        <li><a href="" target="_blank"></a></li>
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#Python" title="Python" rel="2">Python</a>
-            
-        
-            
-            <a href="/tags/#ML" title="ML" rel="2">ML</a>
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#深度学习" title="深度学习" rel="4">深度学习</a>
-            
-        
-            
-        
-            
-            <a href="/tags/#WEB前端" title="WEB前端" rel="3">WEB前端</a>
-            
-        
-            
-            <a href="/tags/#Javascript" title="Javascript" rel="2">Javascript</a>
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="/img/ironman-draw.png" />
-        
 
-        
-            <p>Hi, i&#39;m Zhangxukun</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/Zhangxukun5">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-                <li>
-                    <a target="_blank"  href="https://www.linkedin.com/in/张绪坤">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2018/08/18/eightteneight/">《机器学习实战》k近邻算法_简单实现</a>
-        </li>
-      
-        <li>
-          <a href="/2018/08/06/eightsix/">《机器学习导论》-附录概率论</a>
-        </li>
-      
-        <li>
-          <a href="/2018/08/05/eightfive/">《Python编程：从入门到实践》项目二-数据可视化_使用API</a>
-        </li>
-      
-        <li>
-          <a href="/2018/07/26/sevenTS/">《Python编程：从入门到实践》基础部分笔记</a>
-        </li>
-      
-        <li>
-          <a href="/2018/07/07/sevenseven/">Python编程环境搭建和Geany编辑器的安装</a>
-        </li>
-      
-    </ul>
-  </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-        <!-- Friends Blog -->
+	
+	
+<script type="text/javascript" src="/js/zooming.js"></script>
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
 
-    
-        <li><a href="http://godweiyang.com" target="_blank">WeiYang blog</a></li>
-    
-        <li><a href="" target="_blank"></a></li>
-    
-        <li><a href="" target="_blank"></a></li>
-    
-        <li><a href="" target="_blank"></a></li>
-    
-</ul>
 
-        <hr>
-    
-</div>
+	
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 
-        
-    </div>
-</div>
+
 
 
     <!-- Footer -->
