@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          《机器学习实战》k近邻算法_简单实现 - Zhangxukun Blog | 张绪坤
+          《机器学习实战》决策树算法(ID3算法)_简单实现 - Zhangxukun Blog | 张绪坤
         
     </title>
 
-    <link rel="canonical" href="http://zhangxukun5.com/2018/08/18/eightteneight/">
+    <link rel="canonical" href="http://zhangxukun5.com/2018/08/29/eighttwonine/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -93,11 +93,11 @@
                               <a class="tag" href="/tags/#ML" title="ML">ML</a>
                             
                         </div>
-                        <h1>《机器学习实战》k近邻算法_简单实现</h1>
+                        <h1>《机器学习实战》决策树算法(ID3算法)_简单实现</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 张绪坤 on
-                            2018-08-18
+                            2018-08-29
                         </span>
                     </div>
                 
@@ -214,71 +214,141 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>k-近邻算法采用测量不同特征值之间的距离方法进行分类，分类和回归都属于监督学习。<br>
-	优点：精度高、对异常值不敏感，无数据输入假定；<br>
-	缺点：时间和空间复杂度都高。<br>
-	Python简单实现算法代码：</p>
+                <p>决策树（DecesionTree）是一种基本的分类算法，优点有模型具有可读性，分类速度较快，能够处理多输出问题，对中间缺失值不敏感等。缺点有容易生成较复杂的树，即过拟合问题（需要进行剪枝处理），不适合处理高维数据，当属性数量过大的时候，部分决策树就不再适用等</p>
+<p>决策树学习算法包括3部分：特征选择、树的生成和树的剪枝。常用算法有ID3（本文采用）、C4.5和CART算法。</p> 
+<p>决策树的生成：通常使用信息论，计算熵值，根据信息增益最大来选择划分的特征属性（本文采用），或基尼指数作为特征选择的准则（都能反应数据集合的无序程度）。决策树的生成往往通过计算信息增益或其他指标，从根节点开始，递归地产生决策树。这相当于用信息增益或其他准则不断地选取下一个能够最优的特征属性，或将训练集划分子集，能够取得好的划分效果。</p>
+<p>决策树的剪枝：由于生成的决策树存在过拟合的问题，需要对它进行剪枝（考虑全局最优）。决策树的剪枝，往往从已生成的树上剪掉一些叶结点或叶结点以上的树，并将其父结点或根结点作为新的叶结点。</p>
+<p>《机器学习实战》决策树章节中决策树（ID3算法）简单实现代码：</p>
+<p>1、创建模块trees.py</p>
 <code>
 <pre><code>#coding=gbk
-
-#下面这一行是导入科学计算包Numpy
-from numpy import *
-#下面这一行是导入运算符模块
 import operator
-
-#该函数创建数据集和标签
+#计算数据集的香农熵
+#熵越高，则数据集类数越多，表示混合的信息越多，分类多
+#注：另一种度量信息数据集合无序程度的方法为“基尼不纯度（Gini impurity）”
+from math import log
+def calcShannonEnt(dataSet):
+	numEntries=len(dataSet)
+	labelCounts={}
+	for featVec in dataSet:
+		currentLabel=featVec[-1]
+		if currentLabel not in labelCounts.keys():
+			labelCounts[currentLabel]=0
+		labelCounts[currentLabel]+=1
+	shannonEnt=0.0
+	for key in labelCounts:
+		prob=float(labelCounts[key])/numEntries
+		#计算所有类别所有可能值包含的信息期望值
+		shannonEnt-=prob*log(prob,2)	
+	return shannonEnt
 def createDataSet():
-	#四组数据，每组数据中有两个已知的属性或者说是特征值
-	group=array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
-	#向量labels包含了每个数据点的标签信息，其包含的元素个数等于group矩阵行数。
-	labels=['A','A','B','B']
-	
-	return group,labels 
-#k近邻算法
-#inX分类的输入向量
-#输入的训练样本集为dataSet
-#标签向量labels
-#用于选择最近邻居的数目k
-def classify0(inX, dataSet, labels, k):
-
-	#shape[0]计算矩阵的行数，shape[1]计算矩阵的列数
-	dataSetSize = dataSet.shape[0]
-	#tile数组inX以dataSetSize行1列重复，得到每个元素的差值
-	diffMat = tile(inX, (dataSetSize,1)) - dataSet
-	#每个元素的差值的平方
-	sqDiffMat = diffMat**2
-	#计算array中每行元素的和，这些和再组成一个array
-	sqDistances = sqDiffMat.sum(axis=1)
-
-	distances = sqDistances**0.5
-
-	#将distances中的元素按照从小到大的顺序，将其每个元素对应的数组下标创建一个新的数组并返回。
-	sortedDistIndicies = distances.argsort()     
-	#新建一个dict，dict提供的get方法，如果key不存在，可以返回None，
-	#或者自己指定的value
-	classCount={}          
-
-	#创建一个整数列表，用于for循环
-	for i in range(k):
-		#提取前k个近邻的数据对应的标签
-		voteIlabel = labels[sortedDistIndicies[i]]
-		
-		
-		#classCount.get(voteIlabel,0)是指不存在相应key值的value则返回0
-		#前k个近邻的数据对应的标签，每重复一次，给对应标签计数加1
-		#dict.get(key, default=None)函数，key就是dict中的键voteIlabel，如果不存在则返回一个0并存入dict，如果存在则读取当前值并+1；
-		classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
-	
-	#该排序函数，将字典classCount中对应的（1）即计数大小作为排序参考，降序排序。
-	#其中itemgetter(1)对应字典的“计数大小”，如果itemgetter(0)则对应字典中的“标签名称”
-	sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
-
-return sortedClassCount[0][0]
+	dataSet=[[1,1,'yes'],
+		[1,1,'yes'],
+		[1,0,'no'],
+		[0,1,'no'],
+		[0,1,'no']]
+	labels=['no surfacing','flippers']
+	return dataSet,labels
+#将数据集根据每个特征值划分该数据集，将数据集中某个特征具有特定值的所有数据归为一个新列表并返回该列表
+def splitDataSet(dataSet,axis,value):
+	retDataSet=[]
+	for featVec in dataSet:
+		if featVec[axis]==value:
+			#切片和组合
+			reducedFeatVec=featVec[:axis]
+			reducedFeatVec.extend(featVec[axis+1:])
+			retDataSet.append(reducedFeatVec)
+	return retDataSet
+#特征选取，划分数据集，计算得出最好的划分数据集的特征
+def chooseBestFeatureToSplit(dataSet):
+	#选择数据集中第一个元素列表，目的得到特征数量，则要减去最后一个的类别，即减1
+	numFeatures=len(dataSet[0])-1
+	#计算数据集原始的香农熵
+	#保存最原始的香农熵（无序度量值），目的是与划分之后的数据集计算的熵值进行比较
+	baseEntropy=calcShannonEnt(dataSet)
+	#初始化信息增益
+	bestInfoGain=0.0
+	#初始化有最好划分结果的特征所在特征列表（不重复的集合）中的特征下标
+	bestFeature=-1
+	#循环遍历数据集中的所有特征
+	for i in range(numFeatures):
+		#下面xx = [example[x] for example in xxx]功能解析
+		#example循环取出dataSet的每一行（列表元素），然后example[i]记录每个example中的第i个数据
+		#即example将dataSet中每个列表元素中的第i个元素重新组合为一个列表example[i]
+		#最终得到一个新的列表，即dataSet中每个列表元素中第i个元素的重新组合
+		featList=[example[i] for example in dataSet]
+		#去掉数据集中第i个特征所有取值的重复值，将第i个特征所有不重复值建立一个新列表
+		uniqueVals=set(featList)
+		#创建一个新的（条件）熵变量
+		newEntropy=0.0	
+		#对第i个特征的所有可取得的特征值开始循环遍历
+		for value in uniqueVals:
+			#尝试对第i个特征，按照第i个特征的特征值为value进行划分数据集，得到值为第i个特征的特征值为value的分支（子数据集）
+			subDataSet=splitDataSet(dataSet,i,value)
+			#计算数据集中每个数据第i个特征取值为value的概率
+			prob=len(subDataSet)/float(len(dataSet))
+			#计算所有可取到的新的（条件）熵累加
+			newEntropy+=prob*calcShannonEnt(subDataSet)
+		#计算按照上述这个划分之后得到的信息增益	
+		infoGain=baseEntropy-newEntropy
+		#比较得到能取得最好划分结果的特征在数据元素列表中的下标，即第几个特征
+		if(infoGain&gt;bestInfoGain):
+			bestInfoGain=infoGain
+			bestFeature=i
+	return bestFeature
+def majorityCnt(classList):
+	classCount={}
+	for vote in classList:
+		if vote not in classCount.keys():
+			classCount[vote]=0
+			classCount[vote]+=1
+		sortedClassCount=sorted(classCount.iteritems(),key=operator.itemgetter(1),reverse=True)
+	return sortedClassCount[0][0]
+#创建决策树的函数代码
+#两个输入参数：数据集、标签列表
+#标签列表即特征列表，包含了数据集中元素的每个特征，其目的在该函数中，可以通过特征下标，在此labels列表中找到对应下标的特征
+#(标签列表包含了数据集中所有特征的标签，但是算法本身并不需要此变量，在此其作为输入参数，是在算法中为了给出数据明确的含义)
+def createTree(dataSet,labels):
+	#先创建一个列表变量，列表中为数据集里的所有类标签
+	classList=[example[-1] for example in dataSet]
+	#List.count(obj) 方法用于统计某个元素obj在列表中出现的次数。
+	#递归的第一个终止条件，所有类标签相同，直接返回该类标签
+	if classList.count(classList[0])==len(classList):
+		return classList[0]
+	#递归的第二个终止条件，使用完所有的特征，但是仍然无法将数据集划分为仅包含唯一类别的分组
+	#此时算法在该情况下，使用majorityCnt函数来返回出现次数最多的类别
+	if len(dataSet[0])==1:
+		return majorityCnt(classList)
+	#开始创建数
+	#选择最好的特征下标，即用于最好划分的第一个特征
+	bestFeat=chooseBestFeatureToSplit(dataSet)
+	#根据特征下标，在特征标签中找到特征，用该特征作为一个子树的根节点
+	bestFeatLabel=labels[bestFeat]
+	#构建树，用上述得到的特征作为根节点，开始构建数状结构
+	#该树状结构实际为字典结构，根节点bestFeatLabel为键，其值（根节点下的树结构）仍为字典结构
+	myTree={bestFeatLabel:{}}
+	#从属性列表中删掉已经被选出来当根节点的属性
+	del(labels[bestFeat])
+	featValues=[example[bestFeat] for example in dataSet]
+	uniqueVals=set(featValues)
+	for value in uniqueVals:
+		#复制特征标签，将其存储在新的列表subLabels中
+		subLabels=labels[:]
+		myTree[bestFeatLabel][value]=createTree(splitDataSet(dataSet,bestFeat,value),subLabels)
+	return myTree
 </code></pre>
 </code>
-<p><img src="/2018/08/18/eightteneight/01.png" alt="“picture one”"></p>
-<p><img src="/2018/08/18/eightteneight/02.png" alt="“picture two”"></p>
-<p><img src="/2018/08/18/eightteneight/03.png" alt="“picture three”"></p>
+<p>2、然后创建了文件treesopen.py，导入上述模块</p>
+<code>
+<pre><code>import trees
+myDat,labels=trees.createDataSet()
+myTree=trees.createTree(myDat,labels)
+print(myTree)
+</code></pre>
+</code>
+<p>3、运行treesopen.py</p>
+<p><img src="/2018/08/29/eighttwonine/01.png" alt="“picture one”"></p>
+<p>寻找一棵最优决策树，主要应解决以下3个最优化问题：①生成最少数目的叶子节点；②生成的每个叶子节点的深度最小；③生成的决策树叶子节点最少且每个叶子节点的深度最小。</p>
 
                 
 
@@ -286,13 +356,9 @@ return sortedClassCount[0][0]
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/08/29/eighttwonine/" data-toggle="tooltip" data-placement="top" title="《机器学习实战》决策树算法(ID3算法)_简单实现">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/08/06/eightsix/" data-toggle="tooltip" data-placement="top" title="《机器学习导论》-附录概率论">Next Post &rarr;</a>
+                            <a href="/2018/08/18/eightteneight/" data-toggle="tooltip" data-placement="top" title="《机器学习实战》k近邻算法_简单实现">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
